@@ -9,14 +9,28 @@ async function handleData() {
     preencherTabela(transacoes);
     preencherEstatisticas(transacoes);
 }
+function preencherLista(lista, containerId) {
+    const containerElement = document.getElementById(containerId);
+    if (containerElement) {
+        Object.keys(lista).forEach(key => {
+            containerElement.innerHTML += `<p>${key}: ${lista[key]} </p>`;
+        });
+    }
+}
 function preencherEstatisticas(transacoes) {
     const data = new Estatiscas(transacoes);
+    preencherLista(data.pagamento, 'pagamento');
+    preencherLista(data.status, 'status');
     const totalElement = document.querySelector("#total span");
     if (totalElement) {
         totalElement.innerText = data.total.toLocaleString("pt-BR", {
             style: "currency",
             currency: "BRL",
         });
+    }
+    const diaElement = document.querySelector("#dia span");
+    if (diaElement) {
+        diaElement.innerText = data.melhorDia[0];
     }
 }
 function preencherTabela(transacoes) {
